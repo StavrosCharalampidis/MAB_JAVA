@@ -14,6 +14,7 @@ import app.components.UserFormUI;
 import app.components.UserTextFieldUI;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
@@ -24,9 +25,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
-public class UserSceneCreator extends SceneCreator {
-    Parent mainLayout;
+public class UserSceneCreator extends SceneCreator implements EventHandler<MouseEvent> {
+    BorderPane mainLayout;
+    Button cancelButton, addTicketButton, modifyButton, goback;
     
     public UserSceneCreator(double width, double height) {
         super(width, height);
@@ -34,24 +37,26 @@ public class UserSceneCreator extends SceneCreator {
         //rootGridPane = new FlowPane();
         
         // Main layout
-        BorderPane mainLayout = new BorderPane();
+        mainLayout = new BorderPane();
         mainLayout.setPadding(new Insets(10));
 
         // Create TableView for Tickets
         TableView<Ticket> ticketTableView = createTicketTable();
         mainLayout.setLeft(ticketTableView);
 
-        Button cancelButton = new Button("Cancel");
-        Button modifyButton = new Button("Modify");
-        Button newButton = new Button("New");
+//        cancelButton = new Button("Cancel");
+//        Button modifyButton = new Button("Modify");
+//        Button newButton = new Button("New");
 
-        cancelButton.setOnAction(event -> System.out.println("Cancel button clicked"));
-        modifyButton.setOnAction(event -> System.out.println("Modify button clicked"));
-        newButton.setOnAction(event -> System.out.println("New button clicked"));
+//        cancelButton.setOnAction(e -> System.out.println("ss"));
+//        modifyButton.setOnAction(this);
+//        newButton.setOnAction(this);
 
         // Create input area for new ticket
-        HBox newTicketInputBox = createNewTicketInputBox();
-        mainLayout.setBottom(newTicketInputBox);
+        
+        
+        VBox newTicketInputBox = createNewTicketInputBox();
+        mainLayout.setRight(newTicketInputBox);
         
     }
     
@@ -64,8 +69,8 @@ public class UserSceneCreator extends SceneCreator {
                 
     }
     
-    private HBox createNewTicketInputBox() {
-        HBox newTicketInputBox = new HBox(10);
+    public VBox createNewTicketInputBox() {
+        VBox newTicketInputBox = new VBox(10);
         newTicketInputBox.setPadding(new Insets(10));
 
         TextField movieField = new TextField();
@@ -73,10 +78,8 @@ public class UserSceneCreator extends SceneCreator {
         TextField seatField = new TextField();
         TextField priceField = new TextField();
 
-        Button addTicketButton = new Button("Add Ticket");
-
-        // Add event handler for adding a new ticket
-        addTicketButton.setOnAction(event -> {
+        addTicketButton = new Button("Add Ticket");     
+        addTicketButton.setOnAction(e -> {
             // Retrieve user input from text fields
             String movie = movieField.getText();
             String type = typeField.getText();
@@ -95,13 +98,25 @@ public class UserSceneCreator extends SceneCreator {
             seatField.clear();
             priceField.clear();
         });
-
+        
+        cancelButton = new Button("cancel");
+        cancelButton.setOnAction(e -> System.out.println("s"));
+        
+        modifyButton = new Button("modifyButton");
+        modifyButton.setOnMouseClicked(this);
+        
+        goback = new Button("go back");
+        goback.setOnMouseClicked(this);
+        
         newTicketInputBox.getChildren().addAll(
                 new Label("Movie: "), movieField,
                 new Label("Type: "), typeField,
                 new Label("Seat: "), seatField,
                 new Label("Price: "), priceField,
-                addTicketButton
+                addTicketButton,
+                cancelButton,
+                modifyButton,
+                goback
         );
 
         return newTicketInputBox;
@@ -133,24 +148,14 @@ public class UserSceneCreator extends SceneCreator {
     }
     
       
-            
-    
-//    public void tableSync() {
-//        List <Undergraduate> items = undergraduateTableView.getItems();
-//        items.clear();
-//        for (Students undergrad : studentsList) {
-//            if (undergrad instanceof Undergraduate) {
-//                items.add((Undergraduate) undergrad);
-//            }
-//        }
-//    }
-    
-//    @Override
-//    public void handle(MouseEvent event) {
-//        if (event.getSource() == nameBtn) {
-//            System.out.println("this");
-//        }
-//    }
+
+        
+    @Override
+    public void handle(MouseEvent event) {
+        if (event.getSource() == modifyButton) {
+            System.out.println("this");
+        }
+    }
     
     
     

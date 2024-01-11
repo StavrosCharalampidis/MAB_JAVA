@@ -26,7 +26,7 @@ public class Main extends Application {
         MainSceneCreator mainSceneCreator = new MainSceneCreator(650, 300);
         mainScene = mainSceneCreator.createScene();
         
-        UserSceneCreator UserSceneCreator = new UserSceneCreator(650, 300);
+        UserSceneCreator UserSceneCreator = new UserSceneCreator(750, 500);
         UserScene = UserSceneCreator.createScene();
             
 
